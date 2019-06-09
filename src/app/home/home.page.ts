@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
+  selectedTheme: String;
   items: Array<any>;
 
   constructor(
@@ -17,15 +17,16 @@ export class HomePage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     if (this.route && this.route.data) {
-      this.getData();
+      // this.getData();
     }
   }
 
-  async getData(){
+  async getData() {
     const loading = await this.loadingCtrl.create({
       message: 'Please wait...'
     });
@@ -35,21 +36,20 @@ export class HomePage implements OnInit {
       routeData['data'].subscribe(data => {
         loading.dismiss();
         this.items = data;
-      })
-    })
+      });
+    });
   }
 
   async presentLoading(loading) {
     return await loading.present();
   }
 
-  logout(){
+  logout() {
     this.authService.doLogout()
-    .then(res => {
-      this.router.navigate(["/login"]);
-    }, err => {
-      console.log(err);
-    })
+      .then(res => {
+        this.router.navigate(['/login']);
+      }, err => {
+        console.log(err);
+      });
   }
-
 }

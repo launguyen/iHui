@@ -27,16 +27,16 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.afAuth.user.subscribe(user => {
-        if(user){
-          this.router.navigate(["/home"]);
+        if (user) {
+          this.router.navigate(['/home']);
         } else {
-          this.router.navigate(["/login"]);
+          this.router.navigate(['/login']);
         }
       }, err => {
-        this.router.navigate(["/login"]);
+        this.router.navigate(['/login']);
       }, () => {
         this.splashScreen.hide();
-      })
+      });
       this.statusBar.styleDefault();
     });
   }

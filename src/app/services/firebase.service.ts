@@ -3,6 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { PhienHui } from '../models/phienhui';
+import { KyHui } from '../models/kyhui';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,59 @@ export class FirebaseService {
         title: value.title,
         description: value.description,
         image: value.image
+      })
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        );
+    });
+  }
+
+  taoPhienHui(data: PhienHui) {
+    return new Promise<any>((resolve, reject) => {
+      const currentUser = firebase.auth().currentUser;
+      this.afs.collection('people').doc(currentUser.uid).collection('phienHui').add({
+        tenPhienHui: data.tenPhienHui,
+        idChuHui: data.idChuHui,
+        loai: data.loai,
+        soTien: data.soTien,
+        ngayBatDau: data.ngayBatDau,
+        ngayKhui: data.ngayKhui,
+        trangThai: data.trangThai,
+        danhSachNguoiChoiSong: data.danhSachNguoiChoiSong,
+        danhSachNguoiChoiChet: data.danhSachNguoiChoiChet,
+        // public idPhienHui: String;
+        // public tenPhienHui: String;
+        // public idChuHui: String;
+        // public loai: String; // ngay OR tuan OR thang
+        // public soTien: number;
+        // public ngayBatDau: String;
+        // public ngayKhui: String;
+        // public trangThai: String; // active OR deactive
+        // public danhSachNguoiChoiSong: [];
+        // public danhSachNguoiChoiChet: [];
+      })
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        );
+    });
+  }
+
+  taoKyHui(data: KyHui) {
+    return new Promise<any>((resolve, reject) => {
+      const currentUser = firebase.auth().currentUser;
+      this.afs.collection('people').doc(currentUser.uid).collection('phienHui' + '/' + data.idPhienHui).add({
+        idPhienHui: data.idPhienHui,
+        soKy: data.soKy,
+        nguoiHot: data.nguoiHot,
+        giaHot: data.giaHot,
+        trangThai: data.trangThai
+        // public idPhienHui: String;
+        // public soKy: number;
+        // public nguoiHot: String;
+        // public giaHot: number;
+        // public trangThai: String; // active OR deactive
       })
         .then(
           res => resolve(res),
